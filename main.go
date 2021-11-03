@@ -4,12 +4,15 @@ import (
 	"fiber-api/config"
 	"fiber-api/routes"
 	"fmt"
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
-	"os"
 )
+
+const baseUrl string = "/api"
 
 func main() {
 
@@ -37,7 +40,7 @@ func main() {
 	})
 
 	// config router
-	routes.Setup(app)
+	routes.Setup(baseUrl, app)
 
 	// listen
 	err = app.Listen(":" + os.Getenv("PORT"))
