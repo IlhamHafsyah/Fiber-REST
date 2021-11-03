@@ -11,7 +11,6 @@ import (
 )
 
 func GetProduct(c *fiber.Ctx) error {
-	fmt.Println("jalan")
 	var product []models.Product
 
 	config.DB.Preload(clause.Associations).Find(&product)
@@ -20,8 +19,6 @@ func GetProduct(c *fiber.Ctx) error {
 }
 
 func GetProductById(c *fiber.Ctx) error {
-	fmt.Println("jalan by id")
-
 	id, _ := strconv.Atoi(c.Params("id"))
 	fmt.Println(id)
 	product := models.Product{ProductID: uint(id)}
@@ -32,8 +29,6 @@ func GetProductById(c *fiber.Ctx) error {
 }
 
 func GetProductWihCategory(c *fiber.Ctx) error {
-	fmt.Println("jalan")
-
 	type Result struct {
 		Name         string
 		CategoryDesc string

@@ -40,7 +40,7 @@ func main() {
 	})
 
 	// config router
-	routes.Setup(baseUrl, app)
+	routes.RoutesNavigation(baseUrl, app)
 
 	// listen
 	err = app.Listen(":" + os.Getenv("PORT"))
