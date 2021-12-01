@@ -12,6 +12,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
+//set base uri
 const baseUrl string = "/api"
 
 func main() {
@@ -19,7 +20,7 @@ func main() {
 	// load env
 	err := godotenv.Load()
 	if err != nil {
-		panic(fmt.Errorf("Fatal error locading .env: %w \n", err))
+		panic(fmt.Errorf("fatal error locading .env: %w ", err))
 	}
 
 	// connect DB
@@ -39,12 +40,12 @@ func main() {
 		})
 	})
 
-	// config router
+	// routes navigation
 	routes.RoutesNavigation(baseUrl, app)
 
 	// listen
 	err = app.Listen(":" + os.Getenv("PORT"))
 	if err != nil {
-		panic(fmt.Errorf("Failed to listen on port %s: %w \n", os.Getenv("PORT"), err))
+		panic(fmt.Errorf("failed to listen on port %s: %w ", os.Getenv("PORT"), err))
 	}
 }
