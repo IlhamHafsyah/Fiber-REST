@@ -3,6 +3,7 @@ package controllers
 import (
 	"fiber-api/config"
 	"fiber-api/models"
+	"fmt"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -24,7 +25,21 @@ func GetProductById(c *fiber.Ctx) error {
 
 	config.DB.Preload(clause.Associations).Find(&product)
 
-	return c.JSON(&product)
+	var result = [1]models.Product{product}
+	if result[0].Name == "" {
+		return c.JSON((&fiber.Map{
+			"status":  "seccess",
+			"message": fmt.Sprintf("Product with id: %v not found", id),
+			"code":    404,
+		}))
+	} else {
+		return c.JSON(&fiber.Map{
+			"status":  "success",
+			"message": fmt.Sprintf("Success get product with id: %v", id),
+			"code":    200,
+			"data":    result,
+		})
+	}
 }
 
 func GetProductWihCategory(c *fiber.Ctx) error {
@@ -85,9 +100,18 @@ func DeleteProduct(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 	product := models.Product{ProductID: uint(id)}
 
-	config.DB.Delete(&product)
+	if product.Name == "" {
+		return c.JSON(&fiber.Map{
+			"status":  "success",
+			"message": fmt.Sprintf("Product with id: %v does not exist", id),
+			"code":    404,
+		})
+	} else {
+		config.DB.Delete(&product)
 
-	return c.Status(fiber.StatusNoContent).JSON(&fiber.Map{
-		"message": "Users Deleted",
-	})
+		return c.Status(fiber.StatusNoContent).JSON(&fiber.Map{
+			"message": fmt.Sprintf("Product with id: %v id deleted", id),
+		})
+	}
+
 }

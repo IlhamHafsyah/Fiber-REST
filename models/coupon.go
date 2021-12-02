@@ -6,7 +6,7 @@ type Coupon struct {
 	CouponId     int    `json:"categoryId" gorm:"primaryKey"`
 	CouponName   string `json:"CouponName"`
 	PercentDisc  int
-	MinimumProce int
+	MinimumPrice int
 	ValidUntil   time.Time
 }
 
